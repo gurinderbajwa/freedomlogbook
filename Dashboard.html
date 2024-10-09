@@ -199,8 +199,7 @@
             "timeout": 0,
             "headers": {
                 "Authorization": "Bearer "+ localStorage.getItem('token'),
-                //"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyIsInR5cGUiOiJhY2Nlc3MifQ.eyJ1c2VyIjp7ImlkIjoiVXNlcjp1cGpMQ0RzWUIiLCJjaWQiOiJDb21wYW55OlhsT3Uxdk5PbDUiLCJhIjp0cnVlLCJwIjpbIk1MREQiLCJNQyIsIk1VIiwiTUQiLCJNRyIsIk1WIiwiVkFERCIsIlZDIiwiVkQiLCJWVSIsIlZWIiwiU0MiLCJBUCIsIk1NUiIsIk1PTyIsIk1VRyIsIk1VRCIsIk1VU1AiLCJNVUEiLCJNSEUiXSwiciI6IldMTSIsInByIjoiUjo4Y3lrdGl2bDIxIiwiY3ByIjoiUjo4Y3lrdGl2bDIxIn0sImlhdCI6MTcyNzg1MTk3MCwiZXhwIjoxNzI3OTM4MzcwLCJhdWQiOiIiLCJpc3MiOiIiLCJzdWIiOiIiLCJqdGkiOiJlOTAyYzRlZC03ZjBiLTQ2MjUtOTYxNS0yZTgyMTg2ZWMxNDgifQ.6bmvUeQ3aBIWXvf-ikWpW4J2FkyfZkrlGBCMWGgmFxI"
-            },
+                },
             };
 
             $.ajax(settings).done(function (response) {
@@ -227,7 +226,7 @@
             });
         }else
         {
-            window.location.href = "/index.html";
+            window.location.href = "index.html";
         }
     });    
 </script>

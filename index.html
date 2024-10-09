@@ -86,7 +86,7 @@
 
       $.ajax(settings).done(function (response) {
         localStorage.token = response.accessToken;
-        window.location.href = "/Dashboard.html";
+        window.location.href = "Dashboard.html";
       }).fail(function (jqXHR, textStatus) {
         swal("Login failed", "Please check your username and password.", "error");
         $('#submit').prop("disabled", false);
