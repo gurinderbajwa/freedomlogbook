@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Admin</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+	
+    <link href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
+    <link href="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.14.1/dist/sweetalert2.min.css
+    " rel="stylesheet">
+    <style type="text/css">
+        .loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #241f1f;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Admin</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="Dashboard.html">
+                    <i class="fas fa-users"></i>
+                    <span>Drivers</span></a>
+            </li>
+
+           </ul>
+ <!-- Content Wrapper -->
+ <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Search -->
+       
+
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+
+               
+
+                <div class="topbar-divider d-none d-sm-block"></div>
+
+                <!-- Nav Item - User Information -->
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Welcome</span>
+                        <img class="img-profile rounded-circle"
+                            src="img/undraw_profile.svg">
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                        aria-labelledby="userDropdown">
+                      
+                        <a class="dropdown-item" href="/index.html">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </nav>
+        <!-- Content Wrapper -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <h1 class="h3 mb-2 text-gray-800">Logbook</h1>
+            
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 row">
+                   <div class="col-lg-4"> <h6 class="m-0 font-weight-bold text-primary">Date: <input type="text" 
+                        id="sdate" value="2024/09/26" class="form-control date"></h6>
+                    </div>
+                    <div class="col-lg-4 align-self-end"><a id="search" class="btn btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                        <span class="text">Search</span>
+                    </a></div>
+                    </div>
+                    <div class="card-body" id="dataloader" style="text-align: center; display: none;">
+                        <span class="loader"></span>
+                    </div>
+                <div class="card-body" id="datadiv" style="display: none;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Time(PT)</th>
+                                    <th>Event</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th>Origin</th>
+                                    <th>Odometer</th>
+                                    <th>Engine(Hour)</th>
+                                    <th>Note</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="blogs">                           
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+
+
+    <!-- Page level custom scripts -->
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script data-require="moment.js@2.10.2" data-semver="2.10.2" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script>       
+        $( document ).ready(function() {
+            var user= getParameterByName('u');
+            const token = localStorage.getItem('token');
+            if(token && user){
+            $('.date').datepicker({
+                format: 'yyyy/mm/dd'
+            });
+        }
+        else{
+            window.location.href = "/index.html";
+        }
+        });
+        function formatDate(date) {
+            var d = d,
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        $('#search').click(function(e) {
+            $('#dataloader').css('display','');
+            $('#datadiv').css('display','none');
+            var sdate = new Date($('#sdate').val())
+            var edate = sdate.setDate(sdate.getDate() - 3);
+            console.log(formatDate(edate));
+            console.log('sdate : '+sdate);
+            console.log('edate : '+edate);
+                var userid= getParameterByName('u');
+                var settings = {
+                    "url": "https://backend.apexhos.com/hos_events?userId=!*~"+userid+"&eventTime.logDate.date[$lte]="+$('#edate').val()+"&eventTime.logDate.date[$gte]="+$('#sdate').val(),
+                    "method": "GET",
+                    "timeout": 0,
+                    "headers": {
+                        "Authorization": "Bearer "+ localStorage.getItem('token'),
+                        //"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyIsInR5cGUiOiJhY2Nlc3MifQ.eyJ1c2VyIjp7ImlkIjoiVXNlcjp1cGpMQ0RzWUIiLCJjaWQiOiJDb21wYW55OlhsT3Uxdk5PbDUiLCJhIjp0cnVlLCJwIjpbIk1MREQiLCJNQyIsIk1VIiwiTUQiLCJNRyIsIk1WIiwiVkFERCIsIlZDIiwiVkQiLCJWVSIsIlZWIiwiU0MiLCJBUCIsIk1NUiIsIk1PTyIsIk1VRyIsIk1VRCIsIk1VU1AiLCJNVUEiLCJNSEUiXSwiciI6IldMTSIsInByIjoiUjo4Y3lrdGl2bDIxIiwiY3ByIjoiUjo4Y3lrdGl2bDIxIn0sImlhdCI6MTcyNzg1MTk3MCwiZXhwIjoxNzI3OTM4MzcwLCJhdWQiOiIiLCJpc3MiOiIiLCJzdWIiOiIiLCJqdGkiOiJlOTAyYzRlZC03ZjBiLTQ2MjUtOTYxNS0yZTgyMTg2ZWMxNDgifQ.6bmvUeQ3aBIWXvf-ikWpW4J2FkyfZkrlGBCMWGgmFxI"
+                    },
+                    };
+        
+                    $.ajax(settings).done(function (response) {
+                        $('#dataloader').css('display','none');
+                        $('#datadiv').css('display','');
+                        console.log(response.data);
+                        var eventcodes = {
+                        "DS_OFF": "Off Duty",
+                        "DS_WT": "Off Duty (WT)",
+                        "DS_SB": "Sleeper",
+                        "DS_D": "Driving",
+                        "DS_ON": "On Duty",
+                        "LOG_NORMAL_PRECISION": "Intermediate w/ CLP",
+                        "LOG_REDUCED_PRECISION": "Intermediate w/ RLP",
+                        "DR_IND_PC": "Personal Use",
+                        "DR_IND_YM": "Yard Moves",
+                        "DR_IND_CLEARED": "PC/YM Cleared",
+                        "DR_CERT_1": "Certification",
+                        "DR_CERT_2": "Certification",
+                        "DR_CERT_5": "Certification",
+                        "DR_CERT_6": "Certification",
+                        "DR_CERT_7": "Certification",
+                        "DR_CERT_8": "Certification",
+                        "DR_CERT_9": "Certification",
+                        "DR_LOGIN": "Login",
+                        "DR_LOGOUT": "Logout",
+                        "ENG_UP_NORMAL": "Engine Power-up w/ CLP",
+                        "ENG_UP_REDUCED": "Engine Power-up w/ RLP",
+                        "ENG_DOWN_NORMAL": "Engine Shut-down w/ CLP",
+                        "ENG_DOWN_REDUCED": "Engine Shut-down w/ RLP",
+                        "MALF_LOGGED": "ELD malfunction",
+                        "MALF_CLEARED": "ELD malfunction cleared",
+                        "DIAG_LOGGED": "Data diagnostic",
+                        "DIAG_CLEARED": "Data diagnostic cleared"
+                        };
+                        $.each(response.data, function(i, d) {
+                              var ec = eventcodes[d.eventCode.id];
+                              var dt = moment(d.eventTime.timestamp).format("DD-MM-YYYY h:mm:ss");
+                              var recordstatus = d.recordStatus.id;
+                                var html = `
+                                        <tr>
+                                            <td>${dt}</td>
+                                            <td>${ec}</td>
+                                            <td>${recordstatus}</td>
+                                            <td>${d.location?.calculatedLocation??'NA'}</td>
+                                            <td>${d.recordOrigin.id}</td>
+                                            <td>${d.totalVehicleMiles}</td>
+                                            <td>${d.totalEngineHours}</td>
+                                            <td>${d.eventComment??'NA'}</td>
+                                            <td><a onclick="DeleteEvent('ddd')" href="#" class="btn btn-danger btn-circle btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        `;
+                                        $('#blogs').append(html);
+                            
+                        });                
+                    });
+                
+        });
+        function DeleteEvent(eventid){
+            swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this event!",
+                    icon: "warning",
+                    buttons: [
+                        'No, cancel it!',
+                        'Yes, I am sure!'
+                    ],
+                    dangerMode: true,
+                    }).then(function(isConfirm) {
+                    if (isConfirm) {
+                        swal({
+                        title: 'Deleted!',
+                        text: 'Event deleted successfully!',
+                        icon: 'success'
+                        }).then(function() {
+                        
+                        });
+                    } else {
+                        swal("Cancelled", "Nothing deleted :)", "error");
+                    }
+                    });
+        }
+    </script>
+</body>
+
+</html>

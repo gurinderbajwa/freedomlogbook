@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!-- Source Codes By CodingNepal - www.codingnepalweb.com -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin</title>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="style.css" />
+  <style type="text/css">
+    .error{
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="login_form">
+    <!-- Login form container -->
+    <form id="loginform">
+     
+
+      <h3>Freedom Admin</h3>
+
+      <!-- Email input box -->
+      <div class="input_box">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter email address" required />
+      </div>
+
+      <!-- Paswwrod input box -->
+      <div class="input_box">
+        <div class="password_title">
+          <label for="password">Password</label>
+         
+        </div>
+
+        <input type="password" id="password" placeholder="Enter your password" required />
+      </div>
+
+       <!-- Login button -->
+      <button type="button" id="submit">Log In</button>
+
+     
+    </form>
+  </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+  $(document).ready(function() {
+    localStorage.clear();
+    $("#loginform").validate();
+    $('#submit').click(function(e) {
+      
+      if($("#loginform").valid())
+      {
+        $(this).prop("disabled", true);
+        // add spinner to button
+        $(this).html(
+          `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Please wait...`
+        );
+        var settings = {
+        "url": "https://backend.apexhos.com/authentication",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+          "strategy": "local",
+          "email": $('#email').val(),
+          "password":  $('#password').val(),
+          "company": null,
+          "rCode": "freedom",
+          "otp": null,
+          "action": null,
+          "twoFaIsEnabled": false,
+          "browserFingerPrint": null
+        }),
+      };
+
+      $.ajax(settings).done(function (response) {
+        localStorage.token = response.accessToken;
+        window.location.href = "/Dashboard.html";
+      }).fail(function (jqXHR, textStatus) {
+        swal("Login failed", "Please check your username and password.", "error");
+        $('#submit').prop("disabled", false);
+        $('#submit').html("Log In");
+      });
+    }
+    });
+    function BtnReset() {
+        $('#submit').prop("disabled", false);
+        $('#submit').html($('#submit').attr("Log In"));
+    }
+    
+  });
+  </script>
+</body>
+</html>
