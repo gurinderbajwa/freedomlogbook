@@ -226,6 +226,7 @@
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
         $('#search').click(function(e) {
+            $('#blogs').html("");
             $('#dataloader').css('display','');
             $('#datadiv').css('display','none');
             var sdate = new Date($('#sdate').val())
@@ -326,7 +327,9 @@
         function deleteEventApi(eventid){
             console.log(eventid);
             var settings = {
-                    "url": "https://backend.apexhos.com/hos_events/"+eventid,
+                
+
+                    "url": "https://backend.apexhos.com/hos_events/"+eventid+"?$client[ignoreRev]=true&$client[createIfNotExist]=true&$client[useServerAuditTime]=true",
                     "method": "DELETE",
                     "timeout": 0,
                     "headers": {
