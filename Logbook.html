@@ -130,7 +130,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 row">
                    <div class="col-lg-4"> <h6 class="m-0 font-weight-bold text-primary">Date: <input type="text" 
-                        id="sdate" value="2024/09/26" class="form-control date"></h6>
+                        id="sdate" placeholder="Select Log Date" class="form-control date"></h6>
                     </div>
                     <div class="col-lg-4 align-self-end"><a id="search" class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50">
@@ -206,7 +206,7 @@
         }
         });
         function formatDate(date) {
-            var d = d,
+            var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
                 year = d.getFullYear();
@@ -214,9 +214,8 @@
             if (month.length < 2) month = '0' + month;
             if (day.length < 2) day = '0' + day;
 
-            return [year, month, day].join('-');
+            return [year, month, day].join('/');
         }
-
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -231,17 +230,13 @@
             $('#datadiv').css('display','none');
             var sdate = new Date($('#sdate').val())
             var edate = sdate.setDate(sdate.getDate() - 3);
-            console.log(formatDate(edate));
-            console.log('sdate : '+sdate);
-            console.log('edate : '+edate);
-                var userid= getParameterByName('u');
+            var userid= getParameterByName('u');
                 var settings = {
-                    "url": "https://backend.apexhos.com/hos_events?userId=!*~"+userid+"&eventTime.logDate.date[$lte]="+$('#edate').val()+"&eventTime.logDate.date[$gte]="+$('#sdate').val(),
+                    "url": "https://backend.apexhos.com/hos_events?userId=!*~"+userid+"&eventTime.logDate.date[$lte]="+$('#sdate').val()+"&eventTime.logDate.date[$gte]="+formatDate(edate),
                     "method": "GET",
                     "timeout": 0,
                     "headers": {
                         "Authorization": "Bearer "+ localStorage.getItem('token'),
-                        //"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyIsInR5cGUiOiJhY2Nlc3MifQ.eyJ1c2VyIjp7ImlkIjoiVXNlcjp1cGpMQ0RzWUIiLCJjaWQiOiJDb21wYW55OlhsT3Uxdk5PbDUiLCJhIjp0cnVlLCJwIjpbIk1MREQiLCJNQyIsIk1VIiwiTUQiLCJNRyIsIk1WIiwiVkFERCIsIlZDIiwiVkQiLCJWVSIsIlZWIiwiU0MiLCJBUCIsIk1NUiIsIk1PTyIsIk1VRyIsIk1VRCIsIk1VU1AiLCJNVUEiLCJNSEUiXSwiciI6IldMTSIsInByIjoiUjo4Y3lrdGl2bDIxIiwiY3ByIjoiUjo4Y3lrdGl2bDIxIn0sImlhdCI6MTcyNzg1MTk3MCwiZXhwIjoxNzI3OTM4MzcwLCJhdWQiOiIiLCJpc3MiOiIiLCJzdWIiOiIiLCJqdGkiOiJlOTAyYzRlZC03ZjBiLTQ2MjUtOTYxNS0yZTgyMTg2ZWMxNDgifQ.6bmvUeQ3aBIWXvf-ikWpW4J2FkyfZkrlGBCMWGgmFxI"
                     },
                     };
         
@@ -281,7 +276,7 @@
                         $.each(response.data, function(i, d) {
                               var ec = eventcodes[d.eventCode.id];
                               var dt = moment(d.eventTime.timestamp).format("DD-MM-YYYY h:mm:ss");
-                              var recordstatus = d.recordStatus.id;
+                              var recordstatus = "";//d.recordStatus.id;
                                 var html = `
                                         <tr>
                                             <td>${dt}</td>
@@ -292,7 +287,7 @@
                                             <td>${d.totalVehicleMiles}</td>
                                             <td>${d.totalEngineHours}</td>
                                             <td>${d.eventComment??'NA'}</td>
-                                            <td><a onclick="DeleteEvent('ddd')" href="#" class="btn btn-danger btn-circle btn-sm">
+                                            <td><a onclick="DeleteEvent('${d._id}')" href="#" class="btn btn-danger btn-circle btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </td>
@@ -321,11 +316,26 @@
                         text: 'Event deleted successfully!',
                         icon: 'success'
                         }).then(function() {
-                        
+                            deleteEventApi(eventid);
                         });
                     } else {
                         swal("Cancelled", "Nothing deleted :)", "error");
                     }
+                    });
+        }
+        function deleteEventApi(eventid){
+            console.log(eventid);
+            var settings = {
+                    "url": "https://backend.apexhos.com/hos_events/"+eventid,
+                    "method": "DELETE",
+                    "timeout": 0,
+                    "headers": {
+                        "Authorization": "Bearer "+ localStorage.getItem('token'),
+                    },
+                    };
+
+                    $.ajax(settings).done(function (response) {
+                        $('#search').click();
                     });
         }
     </script>
