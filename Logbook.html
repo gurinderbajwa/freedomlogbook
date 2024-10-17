@@ -274,20 +274,28 @@
                         "DIAG_LOGGED": "Data diagnostic",
                         "DIAG_CLEARED": "Data diagnostic cleared"
                         };
+                        if(response.data.length==0){
+                            $('#blogs').append("<tr><td colspan='9' style='text-align:center;'>No Record Found for selected date</td></tr>");
+                        }
                         $.each(response.data, function(i, d) {
                               var ec = eventcodes[d.eventCode.id];
                               var dt = moment(d.eventTime.timestamp).format("DD-MM-YYYY h:mm:ss");
-                              var recordstatus = "";//d.recordStatus.id;
+                              var myDate = new Date(d.eventTime.timestamp)
+                            var pstDate = myDate.toLocaleString("en-US", {
+                            timeZone: "America/Los_Angeles"
+                            })
+                            
+                              //var recordstatus = d.recordStatus.id;
                                 var html = `
                                         <tr>
-                                            <td>${dt}</td>
+                                            <td>${pstDate}</td>
                                             <td>${ec}</td>
-                                            <td>${recordstatus}</td>
-                                            <td>${d.location?.calculatedLocation??'NA'}</td>
-                                            <td>${d.recordOrigin.id}</td>
-                                            <td>${d.totalVehicleMiles}</td>
-                                            <td>${d.totalEngineHours}</td>
-                                            <td>${d.eventComment??'NA'}</td>
+                                            <td>${d.recordStatus?.id ?? 'NA'}</td>
+                                            <td>${d.location?.calculatedLocation ?? 'NA'}</td>
+                                            <td>${d.recordOrigin?.id ?? 'NA'}</td>
+                                            <td>${d.totalVehicleMiles ?? 'NA'}</td>
+                                            <td>${d.totalEngineHours ?? 'NA'}</td>
+                                            <td>${d.eventComment ?? 'NA'}</td>
                                             <td><a onclick="DeleteEvent('${d._id}')" href="#" class="btn btn-danger btn-circle btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
