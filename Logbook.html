@@ -230,7 +230,7 @@
             $('#dataloader').css('display','');
             $('#datadiv').css('display','none');
             var sdate = new Date($('#sdate').val())
-            var edate = sdate.setDate(sdate.getDate() - 3);
+            var edate = sdate.setDate(sdate.getDate() - 2);
             var userid= getParameterByName('u');
                 var settings = {
                     "url": "https://backend.apexhos.com/hos_events?userId=!*~"+userid+"&eventTime.logDate.date[$lte]="+$('#sdate').val()+"&eventTime.logDate.date[$gte]="+formatDate(edate),
@@ -274,10 +274,22 @@
                         "DIAG_LOGGED": "Data diagnostic",
                         "DIAG_CLEARED": "Data diagnostic cleared"
                         };
-                        if(response.data.length==0){
+                        const json = response.data;
+                        json.sort(
+                        function(a,b){ 
+                            
+                            //use new Date parse string to date type
+                            //convert date to number use Date.parse()
+                            //format function(a,b) { return a-b; }
+                            
+                            return Date.parse(new Date(a.eventTime.timestamp)) - Date.parse(new Date(b.eventTime.timestamp)); 
+                        }
+                        );
+                        console.log(json);
+                        if(json.length==0){
                             $('#blogs').append("<tr><td colspan='9' style='text-align:center;'>No Record Found for selected date</td></tr>");
                         }
-                        $.each(response.data, function(i, d) {
+                        $.each(json, function(i, d) {
                               var ec = eventcodes[d.eventCode.id];
                               var dt = moment(d.eventTime.timestamp).format("DD-MM-YYYY h:mm:ss");
                               var myDate = new Date(d.eventTime.timestamp)
