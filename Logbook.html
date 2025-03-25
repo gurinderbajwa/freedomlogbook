@@ -147,6 +147,7 @@
                         <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
+                                    <th>EVENT_ID</th>
                                     <th>Time(PT)</th>
                                     <th>Event</th>
                                     <th>Status</th>
@@ -300,6 +301,7 @@
                               //var recordstatus = d.recordStatus.id;
                                 var html = `
                                         <tr>
+                                            <td>${d._id.replace("HosEvent:", "")}</td>
                                             <td style="width:200px">${pstDate}</td>
                                             <td>${ec}</td>
                                             <td>${d.recordStatus?.id ?? 'NA'}</td>
