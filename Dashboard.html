@@ -200,29 +200,7 @@
     $( document ).ready(function() {
         $('#dataloader').css('display','');
         $('#datadiv').css('display','none');
-        var settings = {
-        "url": "https://backend.apexhos.com/authentication",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-          "strategy": "local",
-          "email": localStorage.getItem('email'),
-          "password":  localStorage.getItem('password'),
-          "company": getParameterByName('u'),
-          "rCode": "freedom",
-          "otp": null,
-          "action": null,
-          "twoFaIsEnabled": false,
-          "browserFingerPrint": null
-        }),
-      };
-
-      $.ajax(settings).done(function (response) {
-        localStorage.token = response.accessToken;
-      });
+        
         const token = localStorage.getItem('token');
         if(token){
             var settings = {
@@ -243,7 +221,7 @@
                                 <li class="list-group-item">
                                                             <div class="row">
                                                             <div class="col-lg-6">First Name: ${d.firstName} <br> Last Name: ${d.lastName}<br>License Number: ${d.driverInfo.licenseNumber}</div>
-                                                            <div class="col-lg-6 align-self-center"><a href="Logbook.html?u=${d._id}" class="btn btn-primary btn-icon-split">
+                                                            <div class="col-lg-6 align-self-center"><a href="Logbook.html?u=${d._id}&c=${d.companyId}" class="btn btn-primary btn-icon-split">
                                                                 <span class="icon text-white-50">
                                                                     <i class="fas fa-forward"></i>
                                                                 </span>

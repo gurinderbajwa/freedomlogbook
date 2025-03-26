@@ -88,7 +88,7 @@
         localStorage.token = response.accessToken;
         localStorage.email = $('#email').val();
         localStorage.password = $('#password').val();
-        window.location.href = "Companies.html";
+        window.location.href = "Dashboard.html";
       }).fail(function (jqXHR, textStatus) {
         swal("Login failed", "Please check your username and password.", "error");
         $('#submit').prop("disabled", false);

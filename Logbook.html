@@ -196,6 +196,29 @@
     <script>       
         $( document ).ready(function() {
             var user= getParameterByName('u');
+            var settings = {
+            "url": "https://backend.apexhos.com/authentication",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+            "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+            "strategy": "local",
+            "email": "info@freedomlogbook.com",
+            "password":  "Bajwabros24",
+            "company": getParameterByName('c'),
+            "rCode": "freedom",
+            "otp": null,
+            "action": null,
+            "twoFaIsEnabled": false,
+            "browserFingerPrint": null
+            }),
+        };
+
+      $.ajax(settings).done(function (response) {
+        localStorage.token = response.accessToken;
+      });
             const token = localStorage.getItem('token');
             if(token && user){
             $('.date').datepicker({
