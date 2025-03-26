@@ -132,7 +132,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Drivers</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Companies</h6>
 
                                 </div>
                                 <!-- Card Body -->
@@ -188,74 +188,79 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 <script>
-     function getParameterByName(name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
-    $( document ).ready(function() {
-        $('#dataloader').css('display','');
-        $('#datadiv').css('display','none');
+    function getCompanies(){
         var settings = {
-        "url": "https://backend.apexhos.com/authentication",
-        "method": "POST",
+        "url": "https://backend.apexhos.com/companies?%24select%5B0%5D=_id&%24select%5B1%5D=name&%24select%5B2%5D=r&%24select%5B3%5D=it&%24select%5B4%5D=dotNumber&%24select%5B5%5D=a",
+        "method": "GET",
         "timeout": 0,
         "headers": {
-          "Content-Type": "application/json"
+            "Authorization":"Bearer "+ localStorage.getItem('token'),
         },
-        "data": JSON.stringify({
-          "strategy": "local",
-          "email": localStorage.getItem('email'),
-          "password":  localStorage.getItem('password'),
-          "company": getParameterByName('u'),
-          "rCode": "freedom",
-          "otp": null,
-          "action": null,
-          "twoFaIsEnabled": false,
-          "browserFingerPrint": null
-        }),
-      };
+        };
 
-      $.ajax(settings).done(function (response) {
-        localStorage.token = response.accessToken;
-      });
-        const token = localStorage.getItem('token');
-        if(token){
-            var settings = {
-            "url": "https://backend.apexhos.com/users",
-            "method": "GET",
-            "timeout": 0,
-            "headers": {
-                "Authorization": "Bearer "+ localStorage.getItem('token'),
-                },
-            };
-
-            $.ajax(settings).done(function (response) {
-                $('#dataloader').css('display','none');
+        $.ajax(settings).done(function (response) {
+            $('#dataloader').css('display','none');
                 $('#datadiv').css('display','');
                  $.each(response.data, function(i, d) {
-                    if(d.role.id == "DRIVER"){
+                    
                         var html = `
                                 <li class="list-group-item">
                                                             <div class="row">
-                                                            <div class="col-lg-6">First Name: ${d.firstName} <br> Last Name: ${d.lastName}<br>License Number: ${d.driverInfo.licenseNumber}</div>
-                                                            <div class="col-lg-6 align-self-center"><a href="Logbook.html?u=${d._id}" class="btn btn-primary btn-icon-split">
+                                                            <div class="col-lg-6">Company Name: ${d.name}</div>
+                                                            <div class="col-lg-6 align-self-center"><a href="Dashboard.html?u=${d._id}" class="btn btn-primary btn-icon-split">
                                                                 <span class="icon text-white-50">
                                                                     <i class="fas fa-forward"></i>
                                                                 </span>
-                                                                <span class="text">Go to logbook</span>
+                                                                <span class="text">Navigate</span>
                                                             </a></div>
                                                         </div>
                                 </li>
                                 `;
                                 $('#uldrivers').append(html);
-                    }
-                });                
-            });
+                    
+                });  
+        });
+    }
+    $( document ).ready(function() {
+        $('#dataloader').css('display','');
+        $('#datadiv').css('display','none');
+        const token = localStorage.getItem('token');
+        if(token){
+
+            var companyURL = "https://backend.apexhos.com/companies?%24select%5B0%5D=_id&%24select%5B1%5D=name&%24select%5B2%5D=r&%24select%5B3%5D=it&%24select%5B4%5D=dotNumber&%24select%5B5%5D=a";
+            getCompanies();
+
+            // var settings = {
+            // "url": "https://backend.apexhos.com/users",
+            // "method": "GET",
+            // "timeout": 0,
+            // "headers": {
+            //     "Authorization": "Bearer "+ localStorage.getItem('token'),
+            //     },
+            // };
+
+            // $.ajax(settings).done(function (response) {
+            //     $('#dataloader').css('display','none');
+            //     $('#datadiv').css('display','');
+            //      $.each(response.data, function(i, d) {
+            //         if(d.role.id == "DRIVER"){
+            //             var html = `
+            //                     <li class="list-group-item">
+            //                                                 <div class="row">
+            //                                                 <div class="col-lg-6">First Name: ${d.firstName} <br> Last Name: ${d.lastName}<br>License Number: ${d.driverInfo.licenseNumber}</div>
+            //                                                 <div class="col-lg-6 align-self-center"><a href="Logbook.html?u=${d._id}" class="btn btn-primary btn-icon-split">
+            //                                                     <span class="icon text-white-50">
+            //                                                         <i class="fas fa-forward"></i>
+            //                                                     </span>
+            //                                                     <span class="text">Go to logbook</span>
+            //                                                 </a></div>
+            //                                             </div>
+            //                     </li>
+            //                     `;
+            //                     $('#uldrivers').append(html);
+            //         }
+            //     });                
+            // });
         }else
         {
             window.location.href = "index.html";

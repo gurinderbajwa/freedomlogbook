@@ -75,7 +75,7 @@
           "strategy": "local",
           "email": $('#email').val(),
           "password":  $('#password').val(),
-          "company": null,
+          "company": "Company:XlOu1vNOl5",
           "rCode": "freedom",
           "otp": null,
           "action": null,
@@ -86,7 +86,9 @@
 
       $.ajax(settings).done(function (response) {
         localStorage.token = response.accessToken;
-        window.location.href = "Dashboard.html";
+        localStorage.email = $('#email').val();
+        localStorage.password = $('#password').val();
+        window.location.href = "Companies.html";
       }).fail(function (jqXHR, textStatus) {
         swal("Login failed", "Please check your username and password.", "error");
         $('#submit').prop("disabled", false);
